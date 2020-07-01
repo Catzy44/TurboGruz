@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project TeamSpeakBot">
+	<property name="jarfile" value="turbo-gruz" />
+	<property name="ftp-server" value="192.168.43.56" />
+	<property name="ftp-remotedir" value="/home/pi/turbo-gruz/" />
+	<property name="ftp-userid" value="pi" />
+	<property name="ftp-password" value="hjekeuwh13" />
+
+
+	<property name="dir.buildfile" value="." />
+	<property name="dir.workspace" value="../../eclipse-workspace" />
+	<property name="dir.jarfile" value="./turbo-gruz.jar" />
+	<target name="create_run_jar">
+		<sequential>
+
+			<jar destfile="${dir.jarfile}" filesetmanifest="mergewithoutmain">
+				<manifest>
+					<attribute name="Main-Class" value="me.przemovi.Main" />
+					<attribute name="Class-Path" value="." />
+				</manifest>
+				<fileset dir="${dir.workspace}/TURBO-GRUZ/bin" />
+				<zipfileset excludes="META-INF/*.SF" src="../../api/obd-java-api-1.0.jar" />
+				<zipfileset excludes="META-INF/*.SF" src="../../api/jSerialComm-2.9.1.jar" />
+				<zipfileset excludes="META-INF/*.SF" src="../../api/pi4j/junit.jar" />
+				<zipfileset excludes="META-INF/*.SF" src="../../api/pi4j/pi4j-core.jar" />
+				<zipfileset excludes="META-INF/*.SF" src="../../api/pi4j/pi4j-device.jar" />
+				<zipfileset excludes="META-INF/*.SF" src="../../api/pi4j/pi4j-gpio-extension.jar" />
+			</jar>
+			<ftp server="${ftp-server}" remotedir="${ftp-remotedir}" userid="${ftp-userid}" password="${ftp-password}" action="send" verbose="yes">
+				<fileset file="${dir.jarfile}" />
+			</ftp>
+		</sequential>
+
+
+	</target>
+</project>
